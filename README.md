@@ -1,62 +1,118 @@
-# LV1
-def calculate_runtime(load_power, battery_capacity, battery_voltage, efficiency):
-    """
-    計算 UPS 備援時間
+# UPS Runtime Calculator
 
-    load_power: 負載功率 (W)
-    battery_capacity: 電池容量 (Ah)
-    battery_voltage: 電池電壓 (V)
-    efficiency: 系統效率 (0~1)
-    """
+A simple Python tool to estimate the backup runtime of a UPS battery system.
 
-    energy = battery_voltage * battery_capacity
-    available_energy = energy * efficiency
+This program calculates the estimated backup time based on:
 
-    runtime_hours = available_energy / load_power
-    runtime_minutes = runtime_hours * 60
+* Load Power (W)
+* Battery Capacity (Ah)
+* Battery Voltage (V)
+* System Efficiency (%)
 
-    return runtime_minutes
+The result is displayed in minutes along with a simple runtime category.
 
+---
 
-def runtime_category(minutes):
-    """備援時間等級判斷"""
+# Features
 
-    if minutes < 10:
-        return "備援時間：短"
-    elif minutes < 30:
-        return "備援時間：中"
-    else:
-        return "備援時間：長"
+* Estimate UPS battery runtime
+* Simple command line interface
+* Runtime classification (Short / Medium / Long)
+* Basic input validation
+* Easy to modify for real UPS system calculations
 
+---
 
-def main():
+# Formula
 
-    print("UPS 電池備援時間計算器")
-    print("----------------------")
+The runtime is calculated using the following steps.
 
-    try:
-        load_power = float(input("請輸入負載功率 (W): "))
-        battery_capacity = float(input("請輸入電池容量 (Ah): "))
-        battery_voltage = float(input("請輸入電池電壓 (V): "))
-        efficiency = float(input("請輸入系統效率 (%) : ")) / 100
+Energy stored in battery:
 
-        if load_power <= 0 or battery_capacity <= 0 or battery_voltage <= 0:
-            print("輸入值必須大於 0")
-            return
+Energy (Wh) = Battery Voltage × Battery Capacity
 
-        runtime = calculate_runtime(
-            load_power,
-            battery_capacity,
-            battery_voltage,
-            efficiency
-        )
+Available energy considering efficiency:
 
-        print("\n預估備援時間：{:.2f} 分鐘".format(runtime))
-        print(runtime_category(runtime))
+Available Energy = Energy × Efficiency
 
-    except ValueError:
-        print("輸入格式錯誤，請輸入數字")
+Runtime:
 
+Runtime (hours) = Available Energy / Load Power
 
-if __name__ == "__main__":
-    main()
+Runtime (minutes) = Runtime × 60
+
+---
+
+# Example
+
+Input
+
+Load Power: 500 W
+Battery Capacity: 100 Ah
+Battery Voltage: 12 V
+Efficiency: 85 %
+
+Output
+
+Estimated runtime: 122.40 minutes
+Runtime category: Long
+
+---
+
+# How to Run
+
+Run the program using Python:
+
+python main.py
+
+Then enter the required values when prompted.
+
+---
+
+# Example Execution
+
+## UPS 電池備援時間計算器
+
+請輸入負載功率 (W): 500
+請輸入電池容量 (Ah): 100
+請輸入電池電壓 (V): 12
+請輸入系統效率 (%): 85
+
+預估備援時間：122.40 分鐘
+備援時間：長
+
+---
+
+# Project Structure
+
+ups-runtime-calculator
+
+main.py
+README.md
+
+---
+
+# Requirements
+
+Python 3.x
+
+No external libraries are required.
+
+---
+
+# Future Improvements
+
+Possible upgrades for this tool:
+
+* Battery series / parallel calculation
+* Multiple battery strings
+* UPS capacity validation
+* Export results to CSV
+* Web interface version
+* UPS sizing assistant
+
+---
+
+# License
+
+This project is open-source and intended for educational and engineering practice.
